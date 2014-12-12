@@ -19,7 +19,7 @@ class GA1A1S202WP {
 
  	// === Setup methods ===
 
- 	// Minimum constructor, sets analog pin
+ 	// Constructor, sets analog pin
  	GA1A1S202WP(uint8_t pin_assignment);
  	// Sets threshold buckets
  	void set_thresholds(float* new_thresholds, uint8_t n_new_thresholds);

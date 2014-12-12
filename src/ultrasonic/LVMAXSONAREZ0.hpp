@@ -30,7 +30,7 @@ class LVMAXSONAREZ0 {
 
  	// === Setup methods ===
 
- 	// Minimum constructor, sets analog pin
+ 	// Constructor, sets analog pin
  	LVMAXSONAREZ0(uint8_t pin_assignment, OutputMode_t output_mode);
  	// Sets threshold buckets at any time
  	void set_thresholds(float* new_thresholds, uint8_t n_new_thresholds);

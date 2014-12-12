@@ -2,7 +2,9 @@
 
 float LVMAXSONAREZ0::read_distance_by_mode() {
 	if (mode == SERIAL) {
-		return SAL_serial_read(pin);
+		//return SAL_serial_read(pin);
+		printf("You don goofed\n");
+		return 0.0f;
 	} else {
 		return SAL_analog_read(pin);
 	}
