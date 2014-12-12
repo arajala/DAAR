@@ -9,7 +9,7 @@ class LSM9DS0 {
  private:
 
  	// === Registers and addresses ===
- 	
+
  	enum GyroRegister_t {
  		CTRL1_G 	= 0x20,
  		CTRL2_G 	= 0x21,
@@ -133,22 +133,32 @@ class LSM9DS0 {
  	uint16_t read_accel_y_raw();
  	uint16_t read_accel_z_raw();
 
+ 	// Reads uncalibrated rotation from each axis
+ 	uint16_t read_rot_x_raw();
+ 	uint16_t read_rot_y_raw();
+ 	uint16_t read_rot_z_raw();
+
+ 	// Reads uncalibrated magnetic field strength from each axis
+ 	uint16_t read_mag_x_raw();
+ 	uint16_t read_mag_y_raw();
+ 	uint16_t read_mag_z_raw();
+
  public:
 
  	// === Setup methods ===
 
- 	// Constructor, assigns I2C slave address
- 	LSM9DS0(uint8_t address_in);
+ 	// Constructor
+ 	LSM9DS0();
 
  	// Set output scales
- 	void set_accel_scale();
- 	void set_rot_scale();
- 	void set_mag_scale();
+ 	void set_accel_scale(AccelScale_t scale);
+ 	void set_rot_scale(RotScale_t scale);
+ 	void set_mag_scale(MagScale_t scale);
 
  	// Set data rates
- 	void set_accel_rate();
- 	void set_rot_rate();
- 	void set_mag_rate();
+ 	void set_accel_rate(AccelDataRate_t rate);
+ 	void set_rot_rate(RotDataRate_t rate);
+ 	void set_mag_rate(MagDataRate_t rate);
 
  	// === Data methods ===
 
