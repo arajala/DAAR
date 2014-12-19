@@ -1,8 +1,8 @@
 #ifndef LSM9DS0_H
 #define LSM9DS0_H
 
-#include "standards.hpp"
-#include "comms.hpp"
+#include "..\DAAR_common\DAAR_common.h"
+#include "..\DAAR_sal\DAAR_sal.h"
 
 class LSM9DS0 {
 
@@ -25,7 +25,7 @@ class LSM9DS0 {
  		OUT_Z_L_G 	= 0x2C,
  		OUT_Z_H_G 	= 0x2D,
  	};
- 	uint8_t gyro_slave_address = 0x6A;
+ 	uint8_t gyro_slave_address;
 
  	enum AccelMagRegister_t {
  		STATUS_M 	= 0x07,
@@ -60,7 +60,7 @@ class LSM9DS0 {
  		OUT_Z_L_A	= 0x2C,
  		OUT_Z_H_A	= 0x2D
  	};
- 	uint8_t accel_mag_slave_address = 0x1E;
+ 	uint8_t accel_mag_slave_address;
 
  	// === Setup methods ===
 

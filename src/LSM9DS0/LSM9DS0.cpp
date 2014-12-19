@@ -55,7 +55,8 @@ uint16_t LSM9DS0::read_mag_z_raw() {
 }
 
 LSM9DS0::LSM9DS0() {
-
+	gyro_slave_address = 0x6A;
+	accel_mag_slave_address = 0x1E;
 }
 
 void LSM9DS0::set_accel_scale(AccelScale_t scale) {
@@ -124,26 +125,27 @@ void LSM9DS0::set_mag_scale(MagScale_t scale) {
 			break;
 		default:
 			m_factor = 2.0f / (float)(2^15);
+	}
 }
 
 void LSM9DS0::set_accel_rate(AccelDataRate_t rate) {
 	uint8_t ctrl = SAL_i2c_read(accel_mag_slave_address, (uint8_t)CTRL1_AM);
 	uint8_t mask = ~(0xF << 4);
-	uint8_t new_ctrl = (ctrl & mask) | (scale << 4);
+	uint8_t new_ctrl = (ctrl & mask) | (rate << 4);
 	SAL_i2c_write(accel_mag_slave_address, (uint8_t)CTRL1_AM, new_ctrl);
 }
 
 void LSM9DS0::set_rot_rate(RotDataRate_t rate) {
 	uint8_t ctrl = SAL_i2c_read(accel_mag_slave_address, (uint8_t)CTRL1_G);
 	uint8_t mask = ~(0x3 << 6);
-	uint8_t new_ctrl = (ctrl & mask) | (scale << 6);
+	uint8_t new_ctrl = (ctrl & mask) | (rate << 6);
 	SAL_i2c_write(gyro_slave_address, (uint8_t)CTRL1_G, new_ctrl);
 }
 
 void LSM9DS0::set_mag_rate(MagDataRate_t rate) {
 	uint8_t ctrl = SAL_i2c_read(accel_mag_slave_address, (uint8_t)CTRL5_AM);
 	uint8_t mask = ~(0x7 << 2);
-	uint8_t new_ctrl = (ctrl & mask) | (scale << 2);
+	uint8_t new_ctrl = (ctrl & mask) | (rate << 2);
 	SAL_i2c_write(accel_mag_slave_address, (uint8_t)CTRL5_AM, new_ctrl);
 }
 

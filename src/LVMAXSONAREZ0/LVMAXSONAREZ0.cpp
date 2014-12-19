@@ -10,7 +10,7 @@ float LVMAXSONAREZ0::read_distance_by_mode() {
 	}
 }
 
-LVMAXSONAREZ0::LVMAXSONAREZ0(uint8_t pin_assignment, OutputMode_t output_mode) {
+LVMAXSONAREZ0::LVMAXSONAREZ0(uint8_t pin_assignment, uint8_t output_mode) {
 	pin = pin_assignment;
 	mode = output_mode;
 }
@@ -28,7 +28,7 @@ uint8_t LVMAXSONAREZ0::read_distance_digital() {
 	float analog_reading = read_distance_analog();
 	uint8_t i_bucket;
 	uint8_t bucket = 0;
-	for (i_bucket = 0; i_bucket < n_new_thresholds; ++i) {
+	for (i_bucket = 0; i_bucket < n_thresholds; ++i_bucket) {
 		if (analog_reading > thresholds[i_bucket]) {
 			++bucket;
 			continue;

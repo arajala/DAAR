@@ -1,8 +1,8 @@
 #ifndef GA1A1S202WP_H
 #define GA1A1S202WP_H
 
-#include "standards.hpp"
-#include "comms.hpp"
+#include "..\DAAR_common\DAAR_common.h"
+#include "..\DAAR_sal\DAAR_sal.h"
 
 class GA1A1S202WP {
 

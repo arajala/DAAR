@@ -1,20 +1,20 @@
 #ifndef LVMAXSONAREZ0_H
 #define LVMAXSONAREZ0_H
 
-#include "standards.hpp"
-#include "comms.hpp"
+#include "..\DAAR_common\DAAR_common.h"
+#include "..\DAAR_sal\DAAR_sal.h"
+
+// Output mode options
+#define ANALOG 	1
+#define PWM		2
+#define SERIAL	3
 
 class LVMAXSONAREZ0 {
 
  private:
 
- 	// Output interface
- 	enum OuputMode_t {
- 		ANALOG,
- 		PWM,
- 		SERIAL
- 	};
- 	OutputMode_t mode;
+ 	// Output mode
+ 	uint8_t mode;
 
  	// Analog pin assignment
  	uint8_t pin;
@@ -31,7 +31,7 @@ class LVMAXSONAREZ0 {
  	// === Setup methods ===
 
  	// Constructor, sets analog pin
- 	LVMAXSONAREZ0(uint8_t pin_assignment, OutputMode_t output_mode);
+ 	LVMAXSONAREZ0(uint8_t pin_assignment, uint8_t output_mode);
  	// Sets threshold buckets at any time
  	void set_thresholds(float* new_thresholds, uint8_t n_new_thresholds);
 

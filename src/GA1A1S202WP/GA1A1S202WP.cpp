@@ -17,7 +17,7 @@ uint8_t GA1A1S202WP::read_light_digital() {
 	float analog_reading = read_light_analog();
 	uint8_t i_bucket;
 	uint8_t bucket = 0;
-	for (i_bucket = 0; i_bucket < n_new_thresholds; ++i) {
+	for (i_bucket = 0; i_bucket < n_thresholds; ++i_bucket) {
 		if (analog_reading > thresholds[i_bucket]) {
 			++bucket;
 			continue;
