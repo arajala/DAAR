@@ -5,9 +5,12 @@
 #include "..\GA1A1S202WP\GA1A1S202WP.h"
 #include "..\LVMAXSONAREZ0\LVMAXSONAREZ0.h"
 
-#define LIGHT_PIN		A1
-#define ULTRASONIC_PIN	A0
+#define LIGHT_OUTPUT_PIN		A1
+#define DISTANCE_OUTPUT_PIN		A0
+#define DISTANCE_ENABLE_PIN		1
 
 void setup_hardware(LSM9DS0* imu, GA1A1S202WP* light, LVMAXSONAREZ0* distance);
+
+
 
 #endif // DAAR_INTERFACE_H

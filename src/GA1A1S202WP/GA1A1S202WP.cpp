@@ -25,5 +25,4 @@ uint8_t GA1A1S202WP::read_light_digital() {
 			return bucket;
 		}
 	}
-
 }

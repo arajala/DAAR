@@ -13,11 +13,19 @@ class LVMAXSONAREZ0 {
 
  private:
 
+ 	// Voltage supply
+ 	float v_cc;
+
+ 	// Distance conversion factors
+ 	float analog_factor;
+ 	float pwm_factor;
+
  	// Output mode
  	uint8_t mode;
 
- 	// Analog pin assignment
- 	uint8_t pin;
+ 	// Pin assignments
+ 	uint8_t output_pin;
+ 	uint8_t enable_pin;
 
  	// Distance thresholds (increasing order)
  	float* thresholds;
@@ -30,8 +38,9 @@ class LVMAXSONAREZ0 {
 
  	// === Setup methods ===
 
- 	// Constructor, sets analog pin
- 	LVMAXSONAREZ0(uint8_t pin_assignment, uint8_t output_mode);
+ 	// Constructor, sets output pin and enable pin
+ 	LVMAXSONAREZ0(uint8_t output_pin_assignment,
+ 			uint8_t enable_pin_assignment, uint8_t output_mode, float v_in);
  	// Sets threshold buckets at any time
  	void set_thresholds(float* new_thresholds, uint8_t n_new_thresholds);
 
@@ -42,6 +51,15 @@ class LVMAXSONAREZ0 {
  	// Distance separated into arbitrary discrete values
  	// Returns 0 for less than thresholds[0], 1 for thresholds[1], ...
  	uint8_t read_distance_digital();
+
+ 	// === Power methods ===
+
+ 	// Power down the device to stop ranging
+ 	void power_down();
+ 	// Return device to normal ranging operation
+ 	// Causes 20 us delay
+ 	// Warning: causes recalibration
+ 	void power_normal();
 
 };
 

@@ -6,6 +6,68 @@
 
 class LSM9DS0 {
 
+ public:
+
+ 	// === Setup types ===
+
+ 	// Accelerometer
+ 	enum AccelScale_t {
+		A_FS_2,
+		A_FS_4,
+		A_FS_6,
+		A_FS_8,
+		A_FS_16
+	};
+	enum AccelDataRate_t {
+		A_DR_0,
+		A_DR_3,
+		A_DR_6,
+		A_DR_12,
+		A_DR_25,
+		A_DR_50,
+		A_DR_100,
+		A_DR_200,
+		A_DR_400,
+		A_DR_800,
+		A_DR_1600
+	};
+
+	// Gyroscope
+	enum RotScale_t {
+		R_FS_245,
+		R_FS_500,
+		R_FS_2000,
+	};
+	enum RotDataRate_t {
+		R_DR_95,
+		R_DR_190,
+		R_DR_380,
+		R_DR_760
+	};
+
+	// Magnetometer
+	enum MagScale_t {
+		M_FS_2,
+		M_FS_4,
+		M_FS_8,
+		M_FS_12
+	};
+	enum MagDataRate_t {
+		M_DR_3,
+		M_DR_6,
+		M_DR_12,
+		M_DR_25,
+		M_DR_50,
+		M_DR_100
+	};
+
+	// Power
+	enum PowerState_t {
+		POWER_DOWN,
+		POWER_SLEEP,
+		POWER_NORMAL
+	};
+
  private:
 
  	// === Registers and addresses ===
@@ -65,67 +127,23 @@ class LSM9DS0 {
  	// === Setup methods ===
 
  	// Accelerometer
- 	enum AccelScale_t {
- 		A_FS_2,
- 		A_FS_4,
- 		A_FS_6,
- 		A_FS_8,
- 		A_FS_16
- 	};
- 	AccelScale_t a_scale;
+	AccelScale_t a_scale;
+	AccelDataRate_t a_rate;
+	PowerState_t a_power;
  	float a_factor;
 
- 	enum AccelDataRate_t {
- 		A_DR_3,
- 		A_DR_6,
- 		A_DR_12,
- 		A_DR_25,
- 		A_DR_50,
- 		A_DR_100,
- 		A_DR_200,
- 		A_DR_400,
- 		A_DR_800,
- 		A_DR_1600
- 	};
- 	AccelDataRate_t a_rate;
-
  	// Gyroscope
- 	enum RotScale_t {
- 		R_FS_245,
- 		R_FS_500,
- 		R_FS_2000,
- 	};
- 	RotScale_t r_scale;
+	RotScale_t r_scale;
+	RotDataRate_t r_rate;
+	PowerState_t r_power;
  	float r_factor;
 
- 	enum RotDataRate_t {
- 		R_DR_95,
- 		R_DR_190,
- 		R_DR_380,
- 		R_DR_760
- 	};
- 	RotDataRate_t r_rate;
-
  	// Magnetometer
- 	enum MagScale_t {
- 		M_FS_2,
- 		M_FS_4,
- 		M_FS_8,
- 		M_FS_12
- 	};
- 	MagScale_t m_scale;
+	MagScale_t m_scale;
+	MagDataRate_t m_rate;
+	PowerState_t m_power;
  	float m_factor;
-
- 	enum MagDataRate_t {
- 		M_DR_3,
- 		M_DR_6,
- 		M_DR_12,
- 		M_DR_25,
- 		M_DR_50,
- 		M_DR_100
- 	};
- 	MagDataRate_t m_rate;
-
+ 	
  	// === Data methods ===
 
  	// Reads uncalibrated acceleration from each axis
@@ -150,15 +168,15 @@ class LSM9DS0 {
  	// Constructor
  	LSM9DS0();
 
- 	// Set output scales
- 	void set_accel_scale(AccelScale_t scale);
- 	void set_rot_scale(RotScale_t scale);
- 	void set_mag_scale(MagScale_t scale);
+ 	// Set output scales - update parameter changes global scale state
+ 	void set_accel_scale(AccelScale_t scale, uint8_t update = 1);
+ 	void set_rot_scale(RotScale_t scale, uint8_t update = 1);
+ 	void set_mag_scale(MagScale_t scale, uint8_t update = 1);
 
- 	// Set data rates
- 	void set_accel_rate(AccelDataRate_t rate);
- 	void set_rot_rate(RotDataRate_t rate);
- 	void set_mag_rate(MagDataRate_t rate);
+ 	// Set data rates - update parameter changes global rate state
+ 	void set_accel_rate(AccelDataRate_t rate, uint8_t update = 1);
+ 	void set_rot_rate(RotDataRate_t rate, uint8_t update = 1);
+ 	void set_mag_rate(MagDataRate_t rate, uint8_t update = 1);
 
  	// === Data methods ===
 
@@ -189,16 +207,19 @@ class LSM9DS0 {
  	void accel_power_down();
  	void gyro_power_down();
  	void mag_power_down();
+ 	void imu_power_down();
 
  	// Puts device in low power mode
  	void accel_power_sleep();
  	void gyro_power_sleep();
  	void mag_power_sleep();
+ 	void imu_power_sleep();
 
  	// Puts device at full operation power
  	void accel_power_normal();
  	void gyro_power_normal();
  	void mag_power_normal();
+ 	void imu_power_normal();
 
 };
 
