@@ -16,4 +16,8 @@ void SAL_delay_us(uint16_t n_delay);
 
 void SAL_printf(char* msg);
 
+uint16_t SAL_serial_available();
+
+void SAL_serial_read(uint8_t buf, uint8_t n_bytes);
+
 #endif // DAAR_SAL_H

@@ -22,5 +22,8 @@ void setup_hardware(LSM9DS0* imu, GA1A1S202WP* light, LVMAXSONAREZ0* distance) {
 	// === Light sensor setup ===
 
 	// === Distance sensor setup ===
-	
+
+	// Initialize into lowest power mode
+	distance->power_down();
+
 }

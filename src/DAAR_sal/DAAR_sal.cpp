@@ -35,3 +35,11 @@ void SAL_delay_us(uint16_t n_delay) {
 void SAL_printf(char* msg) {
 	Serial.print(msg);
 }
+
+uint16_t SAL_serial_available() {
+	uint16_t = Serial.available();
+}
+
+void SAL_serial_read(uint8_t buf, uint16_t n_bytes) {
+	Serial.readBytes(buf, n_bytes);
+}

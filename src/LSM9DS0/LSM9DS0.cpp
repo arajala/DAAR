@@ -60,7 +60,9 @@ LSM9DS0::LSM9DS0() {
 	accel_mag_slave_address = 0x1E;
 
 	// Set measurement scales
+	Serial.println("setting accel scale");
 	set_accel_scale(A_FS_2);
+	Serial.println("done setting accel scale");
 	set_rot_scale(R_FS_2000);
 	set_mag_scale(M_FS_2);
 
@@ -74,10 +76,14 @@ LSM9DS0::LSM9DS0() {
 }
 
 void LSM9DS0::set_accel_scale(AccelScale_t scale, uint8_t update) {
+	Serial.println("reading ctrl reg");
 	uint8_t ctrl = SAL_i2c_read(accel_mag_slave_address, (uint8_t)CTRL2_AM);
+	Serial.println("done reading ctrl reg");
 	uint8_t mask = ~(0x7 << 3);
 	uint8_t new_ctrl = (ctrl & mask) | ((uint8_t)scale << 3);
+	Serial.println("writing ctrl reg");
 	SAL_i2c_write(accel_mag_slave_address, (uint8_t)CTRL2_AM, new_ctrl);
+	Serial.println("done writing ctrl reg");
 	switch (scale) {
 		case A_FS_2:
 			a_factor = 2.0f / (float)(2^15);
