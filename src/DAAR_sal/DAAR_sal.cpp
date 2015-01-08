@@ -37,9 +37,20 @@ void SAL_printf(char* msg) {
 }
 
 uint16_t SAL_serial_available() {
-	uint16_t = Serial.available();
+	uint16_t bytes = Serial.available();
+	return bytes;
 }
 
-void SAL_serial_read(uint8_t buf, uint16_t n_bytes) {
-	Serial.readBytes(buf, n_bytes);
+void SAL_serial_read(uint8_t* buf, uint16_t n_bytes) {
+	Serial.readBytes((char*)buf, n_bytes);
+}
+
+uint8_t SAL_serial_read_byte() {
+	uint8_t byte = Serial.read();
+	return byte;
+}
+
+uint8_t SAL_serial_find(uint8_t* target) {
+	uint8_t found = (uint8_t)Serial.find((char*)target);
+	return found;
 }

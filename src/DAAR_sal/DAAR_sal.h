@@ -18,6 +18,10 @@ void SAL_printf(char* msg);
 
 uint16_t SAL_serial_available();
 
-void SAL_serial_read(uint8_t buf, uint8_t n_bytes);
+void SAL_serial_read(uint8_t* buf, uint16_t n_bytes);
+
+uint8_t SAL_serial_read_byte();
+
+uint8_t SAL_serial_find(uint8_t* target);
 
 #endif // DAAR_SAL_H

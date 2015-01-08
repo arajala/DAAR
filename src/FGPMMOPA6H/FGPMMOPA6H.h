@@ -4,7 +4,16 @@
 #include "..\DAAR_common\DAAR_common.h"
 #include "..\DAAR_sal\DAAR_sal.h"
 
-#define GPS_PACKET_SIZE	60
+#define GPS_RECEIVE_SIZE	30
+
+#define GPS_BUF_SIZE	82
+
+#define CURRENT_GGA		0
+#define CURRENT_GSA		1
+#define CURRENT_GSV		2
+#define CURRENT_RMC		3
+#define CURRENT_VTG		4
+#define CURRENT_NONE	5
 
 #define GGA_FIX_NONE				0
 #define GGA_FIX_GPS					1
@@ -26,87 +35,95 @@
 #define VTG_MODE_DIFFERENTIAL	D
 #define VTG_MODE_ESTIMATED		E
 
+// === Data types ===
+
+// GGA
+struct gga_t {
+	float utc_time;
+	float latitude;
+	char north_south;
+	float longitude;
+	char east_west;
+	uint8_t fix;
+	uint8_t n_satellites;
+	float hdop;
+	float altitude;
+	char alt_units;
+	float geoidal_sep;
+	char geo_units;
+};
+// GSA
+struct gsa_t {
+	char mode_1;
+	uint8_t mode_2;
+	uint8_t n_satellites[12];
+	float pdop;
+	float hdop;
+	float vdop;
+};
+// GSV
+struct gsv_t {
+	uint8_t n_messages;
+	uint8_t message_num;
+	uint8_t n_satellites;
+	uint8_t satellite_id[4];
+	uint8_t elevation[4];
+	uint8_t azimuth[4];
+	uint8_t snr[4];
+};
+// RMC
+struct rmc_t {
+	float utc_time;
+	char status;
+	float latitude;
+	char north_south;
+	float longitude;
+	char east_west;
+	float speed_knots;
+	float course;
+	uint32_t date;
+	float mag_var_val;
+	char mag_var_dir;
+	char mode;
+};
+// VTG
+struct vtg_t {
+	float course_1;
+	char reference_1;
+	float course_2;
+	char reference_2;
+	float speed_1;
+	char speed_1_units;
+	float speed_2;
+	char speed_2_units;
+	char mode;
+};
+
 class FGPMMOPA6H {
-	
+
  private:
 
  	// === Data storage ===
 
  	// All-purpose serial buffer
- 	uint8_t serial_buf[128];
+ 	uint8_t serial_buf[GPS_BUF_SIZE];
+ 	// Identifier for current buffer
+ 	uint8_t current_buf;
+ 	// Packet buffers
+ 	uint8_t packet_buf[6][GPS_BUF_SIZE];
+ 	uint8_t i_packet[6];
+ 	// Current packet data
+ 	gga_t curr_gga;
+ 	gsa_t curr_gsa;
+ 	gsv_t curr_gsv;
+ 	rmc_t curr_rmc;
+ 	vtg_t curr_vtg;
 
  public:
 
- 	// === Data types ===
+ 	// === Constructor ===
 
- 	// GGA
- 	struct gga_t {
- 		uint8_t utc_hr;
- 		uint8_t utc_min;
- 		uint8_t utc_sec;
- 		float latitude;
- 		char north_south;
- 		float longitude;
- 		char east_west;
- 		uint8_t fix;
- 		uint8_t n_satellites;
- 		float hdop;
- 		float altitude;
- 		char alt_units;
- 		float geoidal_sep;
- 		char geo_units;
- 	};
- 	// GSA
- 	struct gsa_t {
- 		char mode_1;
- 		uint8_t mode_2;
- 		uint8_t n_satellites[12];
- 		float pdop;
- 		float hdop;
- 		float vdop;
- 	};
- 	// GSV
- 	struct gsv_t {
- 		uint8_t n_messages;
- 		uint8_t message_num;
- 		uint8_t n_satellites;
- 		uint8_t satellite_id[4];
- 		uint8_t elevation[4];
- 		uint8_t azimuth[4];
- 		uint8_t snr[4];
- 	};
- 	// RMC
- 	struct rmc_t {
- 		uint8_t utc_hr;
- 		uint8_t utc_min;
- 		uint8_t utc_sec;
- 		char status;
- 		float latitude;
- 		char north_south;
- 		float longitude;
- 		char east_west;
- 		float speed_knots;
- 		float course;
- 		uint8_t date_d;
- 		uint8_t date_m;
- 		uint8_t date_y;
- 		float mag_var_val;
- 		char mag_var_dir;
- 		char mode;
- 	};
- 	// VTG
- 	struct vtg_t {
- 		float course_1:
- 		char reference_1;
- 		float course_2;
- 		char reference_2;
- 		float speed_1;
- 		char speed_1_units;
- 		float speed_2;
- 		char speed_2_units;
- 		char mode;
- 	};
-
+ 	FGPMMOPA6H();
 
  	// === Data methods ===
 
