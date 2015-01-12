@@ -1,6 +1,7 @@
 #include "DAAR_interface.h"
 
-void setup_hardware(LSM9DS0* imu, GA1A1S202WP* light, LVMAXSONAREZ0* distance) {
+void setup_hardware(LSM9DS0* imu, GA1A1S202WP* light, LVMAXSONAREZ0* distance,
+	FGPMMOPA6H* gps, LiquidCrystal* lcd) {
 	
 	// === IMU setup ===
 

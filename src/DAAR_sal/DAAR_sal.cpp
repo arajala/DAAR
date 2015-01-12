@@ -24,8 +24,17 @@ float SAL_analog_read(uint8_t pin) {
 	return float_val;
 }
 
+uint8_t SAL_digital_read(uint8_t pin) {
+	uint8_t val = digitalRead(pin);
+	return val;
+}
+
 void SAL_digital_write(uint8_t pin, uint8_t val) {
 	digitalWrite(pin, val ? HIGH : LOW);
+}
+
+void SAL_pin_mode(uint8_t pin, uint8_t mode) {
+	pinMode(pin, mode);
 }
 
 void SAL_delay_us(uint16_t n_delay) {
