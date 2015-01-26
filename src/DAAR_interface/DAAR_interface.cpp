@@ -31,22 +31,34 @@ void setup_hardware(LSM9DS0* imu, GA1A1S202WP* light, LVMAXSONAREZ0* distance,
 	// === LCD setup ===
 	uint8_t map_light_indicator[8] = {2, 20, 8, 15, 8, 20, 2, 0};
 	lcd->createChar(LIGHT_INDICATOR_CODE, map_light_indicator);
+	lcd->begin(16, 2);
 
 }
 
-void display(DisplayInfo_t display_info) {
-	static float prev_speed = -1.0f;
+void display(DisplayInfo_t display_info, LiquidCrystal* lcd) {
+	static float prev_speed = 0.0f;
+	static float prev_target_distance = 0.0f;
 	static uint8_t prev_light = 9999;
+	static uint8_t init_display = 1;
 
-	if (prev_speed != display_info.current_speed) {
-		lcd.setCursor(0, 0);
+	if ((prev_speed != display_info.current_speed) || init_display) {
+		lcd->setCursor(0, 0);
+		lcd->print(display_info.current_speed);
 		prev_speed = display_info.current_speed;
 	}
 
-	if (prev_light != display_info.light_on) {
-		lcd.setCursor(0, 1);
-		display_info.light_on ? lcd.write((uint8_t)LIGHT_INDICATOR_CODE) : lcd.print(' ');
+	if ((prev_target_distance != display_info.target_distance) || init_display) {
+		lcd->setCursor(0, 1);
+		lcd->print(display_info.target_distance);
+		prev_target_distance = display_info.target_distance;
+	}
+
+	if ((prev_light != display_info.light_on) || init_display) {
+		lcd->setCursor(15, 1);
+		display_info.light_on ? lcd->write((uint8_t)LIGHT_INDICATOR_CODE) : lcd->print(' ');
 		prev_light = display_info.light_on;
 	}
 	
+	init_display = 0;
+
 }

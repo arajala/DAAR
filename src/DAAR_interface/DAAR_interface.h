@@ -7,7 +7,7 @@
 #include "..\LVMAXSONAREZ0\LVMAXSONAREZ0.h"
 #include "..\FGPMMOPA6H\FGPMMOPA6H.h"
 
-#define LIGHT_INDICATOR_THRESH	0.5
+#define LIGHT_INDICATOR_THRESH	0.35
 #define LIGHT_OUTPUT_PIN		A0
 #define DISTANCE_OUTPUT_PIN		A1
 #define DISTANCE_ENABLE_PIN		8
@@ -29,6 +29,7 @@ struct DisplayInfo_t {
 	uint8_t light_on;
 	uint8_t distance_on;
 	uint8_t drift;
+	float target_distance;
 	float current_speed;
 	float speed_limit;
 };
@@ -36,6 +37,6 @@ struct DisplayInfo_t {
 void setup_hardware(LSM9DS0* imu, GA1A1S202WP* light, LVMAXSONAREZ0* distance,
 	FGPMMOPA6H* gps, LiquidCrystal* lcd);
 
-void display(DisplayInfo_t display_info);
+void display(DisplayInfo_t display_info, LiquidCrystal* lcd);
 
 #endif // DAAR_INTERFACE_H
